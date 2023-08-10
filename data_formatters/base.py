@@ -97,7 +97,7 @@ class GenericDataFormatter(abc.ABC):
     def num_classes_per_cat_input(self):
         """Returns number of categories per relevant input.
         
-        This is sequently required for embedding layers.
+        This is sequently required for pytorch embedding layers.
         """
         return self._num_classes_per_cat_input
     
