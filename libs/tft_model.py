@@ -731,6 +731,17 @@ class TFT(nn.Module):
         return gated_post_attention, attention_scores
     
     def forward(self, batch):
+        """
+        batch = {
+            'static_feats_numeric': torch.Tensor,  # 静态数值特征，形状：[num_samples x num_static_numeric]
+            'static_feats_categorical': torch.Tensor,  # 静态分类特征，形状：[num_samples x num_static_categorical]
+            'historical_ts_numeric': torch.Tensor,  # 历史数值时间序列，形状：[num_samples x num_historical_steps x num_historical_numeric]
+            'historical_ts_categorical': torch.Tensor,  # 历史分类时间序列，形状：[num_samples x num_historical_steps x num_historical_categorical]
+            'future_ts_numeric': torch.Tensor,  # 未来数值时间序列，形状：[num_samples x num_future_steps x num_future_numeric]
+            'future_ts_categorical': torch.Tensor,  # 未来分类时间序列，形状：[num_samples x num_future_steps x num_future_categorical],
+            # 可以包含其他模型需要的信息，例如 'target_window_start': int
+        }
+        """
         num_samples, num_historical_steps, _ = batch[self.historical_ts_representative_key].shape
         num_future_steps = batch[self.future_ts_representative_key].shape[1]
         # define output_sequence_length : num_future_steps - self.target_window_start_idx
